@@ -1,10 +1,53 @@
+networks:
+  db_internal:
+    enable_ipv6: false
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.15.0/30
+          gateway: "192.168.15.1"
+  es_internal:
+    enable_ipv6: false
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.15.4/30
+          gateway: "192.168.15.5"
 services:
+  db01:
+    image: angy91m/percx:8.0.34
+    container_name: db01
+    ports:
+      - 127.0.0.1:3306:3306
+      - 127.0.0.1:4567:4567
+      - 127.0.0.1:4568:4568
+      - 127.0.0.1:4444:4444
+    env_file:
+      - .env.db
+    environment:
+      MYSQL_DATABASE: wiki_db
+      INTERNAL_IP: "192.168.15.2"
+    networks:
+      db_internal:
+        ipv4_address: "192.168.15.2"
+    volumes:
+      - ./db-start.sh:/start.sh
+      - ./xtra.cnf:/home/mysql/xtra.cnf:ro
+      - ./db-data/data:/data/mysql
+      - ./db-data/binlog:/data/binlog
+      - ./db-data/log:/var/log/mysql
+    entrypoint: ["/start.sh"]
+    secrets:
+      - db-password
+      - db-bck-password
   es01:
     image: elasticsearch:8.13.0
     container_name: es01
     ports:
-      - 192.168.216.0:9200:9200
-      - 192.168.216.0:9300:9300
+      - 127.0.0.1:9200:9200
+      - 127.0.0.1:9300:9300
     environment:
       node.name: es01
       cluster.name: es-cluster
@@ -16,6 +59,9 @@ services:
       cluster.routing.allocation.disk.threshold_enabled: "false"
       ES_JAVA_OPTS: -Xms512m -Xmx512m
       ELASTIC_PASSWORD_FILE: /run/secrets/elastic-password
+    networks:
+      es_internal:
+        ipv4_address: "192.168.15.6"
     ulimits:
       memlock:
         soft: -1
@@ -28,3 +74,7 @@ services:
 secrets:
   elastic-password:
     file: ./elastic-password
+  db-password:
+    file: ./db-password
+  db-bck-password:
+    file: ./db-bck-password
