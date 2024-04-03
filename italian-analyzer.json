@@ -1,0 +1,71 @@
+// PUT /pages_it
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "italian_elision": {
+          "type": "elision",
+          "articles": [
+                "c", "l", "all", "dall", "dell",
+                "nell", "sull", "coll", "pell",
+                "gl", "agl", "dagl", "degl", "negl",
+                "sugl", "un", "m", "t", "s", "v", "d"
+          ],
+          "articles_case": true
+        },
+        "italian_stop": {
+          "type":       "stop",
+          "stopwords_path": "/usr/share/elasticsearch/config/_italian_stop_"
+        },
+        "italian_stemmer": {
+          "type":       "stemmer",
+          "language":   "italian"
+        }
+      },
+      "analyzer": {
+        "rebuilt_italian": {
+          "tokenizer":  "standard",
+          "filter": [
+            "italian_elision",
+            "lowercase",
+            "italian_stop",
+            "italian_stemmer"
+          ]
+        },
+        "italian_exact": {
+          "tokenizer":  "standard",
+          "filter": [
+            "lowercase"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "uuid": {
+        "type": "keyword"
+      },
+      "name": {
+        "type": "text",
+        "analyzer": "rebuilt_italian",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "italian_exact"
+          }
+        }
+      },
+      "content": {
+        "type": "text",
+        "analyzer": "rebuilt_italian",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "italian_exact"
+          }
+        }
+      }
+    }
+  }
+}

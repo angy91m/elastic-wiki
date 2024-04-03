@@ -1,0 +1,56 @@
+// PUT /pages_en
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "english_stop": {
+          "type":       "stop",
+          "stopwords": "_english_"
+        }
+      },
+      "analyzer": {
+        "rebuilt_english": {
+          "tokenizer":  "standard",
+          "filter": [
+            "lowercase",
+            "english_stop",
+            "porter_stem"
+          ]
+        },
+        "english_exact": {
+          "tokenizer":  "standard",
+          "filter": [
+            "lowercase"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "uuid": {
+        "type": "keyword"
+      },
+      "name": {
+        "type": "text",
+        "analyzer": "rebuilt_english",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "english_exact"
+          }
+        }
+      },
+      "content": {
+        "type": "text",
+        "analyzer": "rebuilt_english",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "english_exact"
+          }
+        }
+      }
+    }
+  }
+}
