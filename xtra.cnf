@@ -3,7 +3,6 @@ require-secure-transport = FALSE
 #ssl_ca = /cert/ca.crt
 #ssl_cert = /cert/server.crt
 #ssl_key = /cert/server.key
-bind-address = £INTERNAL_IP£
 log-bin = /data/binlog/log-bin-£CLUSTER_NAME££INDEX£
 log-bin-index = /data/binlog/mysql-bin.index
 log-bin-trust-function-creators = 1
@@ -74,8 +73,6 @@ read-rnd-buffer-size = 2M
 sql-mode = ''
 secure-file-priv=/home/mysql/tmp
 max-connect-errors = 100000000
-wsrep-node-address = £INTERNAL_IP£
-wsrep-provider-options = "gmcast.listen_addr=tcp://£INTERNAL_IP£:4567; "
 
 [mysql]
 default-character-set = utf8mb4

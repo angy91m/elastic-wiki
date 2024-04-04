@@ -20,15 +20,14 @@ services:
     image: angy91m/percx:8.0.34
     container_name: db01
     ports:
-      - 127.0.0.1:3306:3306
-      - 127.0.0.1:4567:4567
-      - 127.0.0.1:4568:4568
-      - 127.0.0.1:4444:4444
+      - ${SELF_IP}:3306:3306
+      - ${SELF_IP}:4567:4567
+      - ${SELF_IP}:4568:4568
+      - ${SELF_IP}:4444:4444
     env_file:
       - .env.db
     environment:
       MYSQL_DATABASE: wiki_db
-      INTERNAL_IP: "192.168.15.2"
     networks:
       db_internal:
         ipv4_address: "192.168.15.2"
@@ -46,8 +45,8 @@ services:
     image: elasticsearch:8.13.0
     container_name: es01
     ports:
-      - 127.0.0.1:9200:9200
-      - 127.0.0.1:9300:9300
+      - ${SELF_IP}:9200:9200
+      - ${SELF_IP}:9300:9300
     environment:
       node.name: es01
       cluster.name: es-cluster
