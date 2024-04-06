@@ -17,21 +17,26 @@ networks:
           gateway: "192.168.15.5"
 services:
   db01:
-    image: mariadb:11.3.2
+    image: angy91m/percx:8.0.34
     container_name: db01
     ports:
       - ${SELF_IP}:3306:3306
+      - ${SELF_IP}:4567:4567
+      - ${SELF_IP}:4568:4568
+      - ${SELF_IP}:4444:4444
     env_file:
-      - .env.mariadb
+      - .env.db
     environment:
-      MARIADB_DATABASE: wiki_db
+      MYSQL_DATABASE: wiki_db
     networks:
       db_internal:
         ipv4_address: "192.168.15.2"
     volumes:
-      - ./mariadb-start.sh:/start.sh
-      - ./mariadb.cnf:/mariadb.cnf:ro
-      - ./db-data:/var/lib/mysql:Z
+      - ./db-start.sh:/start.sh
+      - ./xtra.cnf:/home/mysql/xtra.cnf:ro
+      - ./db-data/data:/data/mysql
+      - ./db-data/binlog:/data/binlog
+      - ./db-data/log:/var/log/mysql
     entrypoint: ["/start.sh"]
     secrets:
       - db-password

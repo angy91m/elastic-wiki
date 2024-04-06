@@ -14,7 +14,8 @@
           "filter": [
             "lowercase",
             "english_stop",
-            "porter_stem"
+            "porter_stem",
+            "asciifolding"
           ]
         },
         "english_exact": {
@@ -28,9 +29,6 @@
   },
   "mappings": {
     "properties": {
-      "uuid": {
-        "type": "keyword"
-      },
       "name": {
         "type": "text",
         "analyzer": "rebuilt_english",

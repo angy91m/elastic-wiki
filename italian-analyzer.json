@@ -29,7 +29,8 @@
             "italian_elision",
             "lowercase",
             "italian_stop",
-            "italian_stemmer"
+            "italian_stemmer",
+            "asciifolding"
           ]
         },
         "italian_exact": {
@@ -43,9 +44,6 @@
   },
   "mappings": {
     "properties": {
-      "uuid": {
-        "type": "keyword"
-      },
       "name": {
         "type": "text",
         "analyzer": "rebuilt_italian",
