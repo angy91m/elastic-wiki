@@ -36,6 +36,9 @@
           "exact": {
             "type": "text",
             "analyzer": "english_exact"
+          },
+          "raw": {
+            "type": "keyword"
           }
         }
       },
@@ -53,7 +56,7 @@
         "type": "text",
         "analyzer": "whitespace",
         "fields": {
-          "exact": {
+          "raw": {
             "type": "keyword"
           }
         }

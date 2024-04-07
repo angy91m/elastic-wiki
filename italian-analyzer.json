@@ -51,6 +51,9 @@
           "exact": {
             "type": "text",
             "analyzer": "italian_exact"
+          },
+          "raw": {
+            "type": "keyword"
           }
         }
       },
@@ -68,7 +71,7 @@
         "type": "text",
         "analyzer": "whitespace",
         "fields": {
-          "exact": {
+          "raw": {
             "type": "keyword"
           }
         }
