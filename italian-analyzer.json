@@ -63,6 +63,18 @@
             "analyzer": "italian_exact"
           }
         }
+      },
+      "category": {
+        "type": "text",
+        "analyzer": "whitespace",
+        "fields": {
+          "exact": {
+            "type": "keyword"
+          }
+        }
+      },
+      "tags": {
+        "type": "keyword"
       }
     }
   }
