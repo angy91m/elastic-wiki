@@ -76,6 +76,16 @@
             }
           }
         },
+        "it_content": {
+          "type": "text",
+          "analyzer": "rebuilt_italian",
+          "fields": {
+            "exact": {
+              "type": "text",
+              "analyzer": "italian_exact"
+            }
+          }
+        },
         "en_name": {
             "type": "text",
             "analyzer": "rebuilt_english",
@@ -89,9 +99,16 @@
               }
             }
         },
-        "tags": {
-          "type": "keyword"
+        "en_content": {
+            "type": "text",
+            "analyzer": "rebuilt_english",
+            "fields": {
+              "exact": {
+                "type": "text",
+                "analyzer": "english_exact"
+              }
+            }
         }
       }
     }
-  }
+}
