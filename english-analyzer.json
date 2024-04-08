@@ -57,6 +57,9 @@
           }
         }
       },
+      "contributors": {
+        "type": "keyword"
+      },
       "category": {
         "type": "text",
         "analyzer": "whitespace",
