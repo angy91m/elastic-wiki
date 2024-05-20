@@ -6,25 +6,25 @@
         "italian_elision": {
           "type": "elision",
           "articles": [
-                "c", "l", "all", "dall", "dell",
-                "nell", "sull", "coll", "pell",
-                "gl", "agl", "dagl", "degl", "negl",
-                "sugl", "un", "m", "t", "s", "v", "d"
+            "c", "l", "all", "dall", "dell",
+            "nell", "sull", "coll", "pell",
+            "gl", "agl", "dagl", "degl", "negl",
+            "sugl", "un", "m", "t", "s", "v", "d"
           ],
           "articles_case": true
         },
         "italian_stop": {
-          "type":       "stop",
+          "type": "stop",
           "stopwords_path": "/usr/share/elasticsearch/config/_italian_stop_"
         },
         "italian_stemmer": {
-          "type":       "stemmer",
-          "language":   "italian"
+          "type": "stemmer",
+          "language": "italian"
         }
       },
       "analyzer": {
         "rebuilt_italian": {
-          "tokenizer":  "standard",
+          "tokenizer": "standard",
           "filter": [
             "italian_elision",
             "lowercase",
@@ -34,7 +34,15 @@
           ]
         },
         "italian_exact": {
-          "tokenizer":  "standard",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase"
+          ]
+        }
+      },
+      "normalizer": {
+        "lowercase_normalizer": {
+          "type": "custom",
           "filter": [
             "lowercase"
           ]
@@ -53,7 +61,8 @@
             "analyzer": "italian_exact"
           },
           "raw": {
-            "type": "keyword"
+            "type": "keyword",
+            "normalizer": "lowercase_normalizer"
           }
         }
       },
@@ -67,20 +76,11 @@
           }
         }
       },
-      "contributors": {
-        "type": "keyword"
-      },
-      "category": {
-        "type": "text",
-        "analyzer": "whitespace",
-        "fields": {
-          "raw": {
-            "type": "keyword"
-          }
-        }
-      },
       "tags": {
         "type": "keyword"
+      },
+      "rCount": {
+        "type": "unsigned_long"
       }
     }
   }

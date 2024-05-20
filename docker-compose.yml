@@ -15,6 +15,14 @@ networks:
       config:
         - subnet: 192.168.15.4/30
           gateway: "192.168.15.5"
+  redis_internal:
+    enable_ipv6: false
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.15.8/30
+          gateway: "192.168.15.9"
 services:
   db01:
     image: mariadb:11.3.2
@@ -65,6 +73,15 @@ services:
       - ./_italian_stop_:/usr/share/elasticsearch/config/_italian_stop_
     secrets:
       - elastic-password
+  redis:
+    image: redis:7.2.4-alpine
+    container_name: redis
+    ports:
+      - ${SELF_IP}:6379:6379
+    networks:
+      redis_internal:
+        ipv4_address: "192.168.15.10"
+    command: redis-server --save ""
 secrets:
   elastic-password:
     file: ./elastic-password
