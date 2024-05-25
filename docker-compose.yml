@@ -28,7 +28,7 @@ services:
     image: mariadb:11.3.2
     container_name: db01
     ports:
-      - ${SELF_IP}:3306:3306
+      - 127.0.0.1:3306:3306
     env_file:
       - .env.mariadb
     environment:
@@ -48,8 +48,8 @@ services:
     image: elasticsearch:8.13.0
     container_name: es01
     ports:
-      - ${SELF_IP}:9200:9200
-      - ${SELF_IP}:9300:9300
+      - 127.0.0.1:9200:9200
+      - 127.0.0.1:9300:9300
     environment:
       node.name: es01
       cluster.name: es-cluster
