@@ -79,6 +79,9 @@
       "tags": {
         "type": "keyword"
       },
+      "authors": {
+        "type": "keyword"
+      },
       "rCount": {
         "type": "unsigned_long"
       }
