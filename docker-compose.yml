@@ -48,8 +48,8 @@ services:
     image: elasticsearch:8.13.0
     container_name: es01
     ports:
-      - 127.0.0.1:9200:9200
-      - 127.0.0.1:9300:9300
+      - ${SELF_IP}:9200:9200
+      - ${SELF_IP}:9300:9300
     environment:
       node.name: es01
       cluster.name: es-cluster
