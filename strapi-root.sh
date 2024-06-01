@@ -1,3 +1,4 @@
 #!/bin/bash
-curl http://localhost:1337/
+apt update -y && \
+apt install -y curl && \
 su node -- /home/node/strapi-start.sh "$@"
