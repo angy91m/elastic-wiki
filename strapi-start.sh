@@ -1,4 +1,7 @@
 #!/bin/ash
+apk update && \
+apk add curl && \
+su node <<EOSU
 inited=$( /home/node/str-contains.sh "$PATH" "/home/node/.npm-global/bin" )
 if [ "$inited" != "1" ]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh && \
@@ -11,3 +14,4 @@ if [ ! -d /home/node/app/node_modules ]; then
     yarn install
 fi && \
 docker-entrypoint.sh "$@"
+EOSU

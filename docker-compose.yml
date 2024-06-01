@@ -83,7 +83,7 @@ services:
   strapi:
     image: node:20-alpine
     container_name: strapi
-    user: node
+    user: root
     working_dir: /home/node/app
     volumes:
       - ./strapi-start.sh:/home/node/strapi-start.sh
