@@ -1,4 +1,4 @@
 #!/bin/ash
 apk update && \
 apk add curl && \
-su node -- ./strapi-start.sh "$@"
+su node -- /home/node/strapi-start.sh "$@"
