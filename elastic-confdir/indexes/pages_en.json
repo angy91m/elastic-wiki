@@ -1,0 +1,79 @@
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "english_stop": {
+          "type": "stop",
+          "stopwords": "_english_"
+        },
+        "english_possessive_stemmer": {
+          "type": "stemmer",
+          "language": "possessive_english"
+        }
+      },
+      "analyzer": {
+        "rebuilt_english": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "english_possessive_stemmer",
+            "english_stop",
+            "porter_stem",
+            "asciifolding"
+          ]
+        },
+        "english_exact": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase"
+          ]
+        }
+      },
+      "normalizer": {
+        "lowercase_normalizer": {
+          "type": "custom",
+          "filter": [
+            "lowercase"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "name": {
+        "type": "text",
+        "analyzer": "rebuilt_english",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "english_exact"
+          },
+          "raw": {
+            "type": "keyword",
+            "normalizer": "lowercase_normalizer"
+          }
+        }
+      },
+      "content": {
+        "type": "text",
+        "analyzer": "rebuilt_english",
+        "fields": {
+          "exact": {
+            "type": "text",
+            "analyzer": "english_exact"
+          }
+        }
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "authors": {
+        "type": "keyword"
+      },
+      "rCount": {
+        "type": "unsigned_long"
+      }
+    }
+  }
+}

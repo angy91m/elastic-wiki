@@ -1,40 +1,46 @@
 networks:
-  db_internal:
+  db_net:
     enable_ipv6: false
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 192.168.15.0/30
+        - subnet: 192.168.15.0/29
           gateway: "192.168.15.1"
-  es_internal:
+  es_net:
     enable_ipv6: false
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 192.168.15.4/30
-          gateway: "192.168.15.5"
-  proxy_internal:
-    enable_ipv6: false
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.15.8/30
+        - subnet: 192.168.15.8/29
           gateway: "192.168.15.9"
+  strapi_net:
+    enable_ipv6: false
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.15.16/29
+          gateway: "192.168.15.17"
+  proxy_net:
+    enable_ipv6: false
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.15.24/29
+          gateway: "192.168.15.25"
 services:
   db01:
     image: mariadb:11.3.2
     container_name: db01
-    ports:
-      - 127.0.0.1:3306:3306
     env_file:
       - .env.mariadb
     environment:
       MARIADB_DATABASE: wiki_db
     networks:
-      db_internal:
+      db_net:
         ipv4_address: "192.168.15.2"
     volumes:
       - ./mariadb-start.sh:/start.sh
@@ -47,12 +53,9 @@ services:
   es01:
     image: elasticsearch:8.13.0
     container_name: es01
-    ports:
-      - 127.0.0.1:9200:9200
-      - 127.0.0.1:9300:9300
     environment:
       node.name: es01
-      network.host: es01.wikilina.loc
+      network.host: _local_
       cluster.name: es-cluster
       #cluster.initial_master_nodes: es01
       discovery.type: single-node
@@ -63,17 +66,37 @@ services:
       ES_JAVA_OPTS: -Xms512m -Xmx512m
       ELASTIC_PASSWORD_FILE: /run/secrets/elastic-password
     networks:
-      es_internal:
-        ipv4_address: "192.168.15.6"
+      es_net:
+        ipv4_address: "192.168.15.10"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
       - ./elastic-data:/usr/share/elasticsearch/data
-      - ./_italian_stop_:/usr/share/elasticsearch/config/_italian_stop_
+      - ./elastic-confdir/_italian_stop_:/usr/share/elasticsearch/config/_italian_stop_
+      - ./elastic-confdir/indexes:/usr/share/elasticsearch/config/indexes
+      - ./elastic-confdir/start.sh:/start.sh
+    command: -- /start.sh
     secrets:
       - elastic-password
+  strapi:
+    image: 20-alpine
+    container_name: strapi
+    user: node-user
+    workdir: /home/node-user/app
+    volumes:
+      - ../strapi-wiki:/home/node-user/app
+    expose:
+      - "1337"
+    networks:
+      strapi_net:
+        ipv4_address: "192.168.15.18"
+      db_net:
+        ipv4_address: "192.168.15.3"
+      es_net:
+        ipv4_address: "192.168.15.11"
+    command: yarn develop
   proxy:
     image: nginx:1.25.5-alpine
     container_name: proxy
@@ -82,8 +105,12 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     networks:
-      proxy_internal:
-        ipv4_address: "192.168.15.10"
+      proxy_net:
+        ipv4_address: "192.168.15.26"
+      es_net:
+        ipv4_address: "192.168.15.12"
+      strapi_net:
+        ipv4_address: "192.168.15.19"
   # redis:
   #   image: redis:7.2.4-alpine
   #   container_name: redis
@@ -95,7 +122,7 @@ services:
   #   command: redis-server --save ""
 secrets:
   elastic-password:
-    file: ./elastic-password
+    file: ./elastic-confdir/elastic-password
   db-password:
     file: ./db-password
   db-bck-password:
