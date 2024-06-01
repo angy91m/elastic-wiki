@@ -81,7 +81,7 @@ services:
     secrets:
       - elastic-password
   strapi:
-    image: 20-alpine
+    image: node:20-alpine
     container_name: strapi
     user: node-user
     working_dir: /home/node-user/app
