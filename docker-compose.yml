@@ -83,10 +83,10 @@ services:
   strapi:
     image: node:20-alpine
     container_name: strapi
-    user: node-user
-    working_dir: /home/node-user/app
+    user: node
+    working_dir: /home/node/app
     volumes:
-      - ../strapi-wiki:/home/node-user/app
+      - ../strapi-wiki:/home/node/app
     expose:
       - "1337"
     networks:
