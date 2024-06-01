@@ -86,10 +86,11 @@ services:
     user: root
     working_dir: /home/node/app
     volumes:
+      - ./strapi-root.sh:/home/node/strapi-root.sh
       - ./strapi-start.sh:/home/node/strapi-start.sh
       - ./str-contains.sh:/home/node/str-contains.sh
       - ../strapi-wiki:/home/node/app
-    entrypoint: ["/home/node/strapi-start.sh"]
+    entrypoint: ["/home/node/strapi-root.sh"]
     expose:
       - "1337"
     networks:

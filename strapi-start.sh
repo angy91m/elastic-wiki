@@ -1,13 +1,10 @@
 #!/bin/ash
-apk update && \
-apk add curl && \
-su node <<EOSU
-echo "$PATH"
-echo "$HOME"
+echo $HOME
+echo $@
 inited=$( /home/node/str-contains.sh "$PATH" "/home/node/.npm-global/bin" )
 if [ "$inited" != "1" ]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
-    source "$HOME/.cargo/env" && \
+    source "/home/node/.cargo/env" && \
     export PATH="$PATH:/home/node/.npm-global/bin" && \
     npm i -g node-gyp cargo-cp-artifact && \
     mkdir -p /home/node/test2 && cd /home/node/test2 && \
@@ -17,4 +14,3 @@ if [ ! -d /home/node/app/node_modules ]; then
     yarn install
 fi && \
 docker-entrypoint.sh "$@"
-EOSU
