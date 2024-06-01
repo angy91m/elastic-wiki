@@ -5,6 +5,8 @@ if [ ! -f /usr/share/elasticsearch/data/index-ready ]; then
     else
         startPass=$ELASTIC_PASSWORD
     fi
+    echo "$startPass"
+    
     startUrl="http://localhost:9200"
     if [[ $startPass != "" ]]; then
         startUrl="http://elastic:$startPass@localhost:9200"
