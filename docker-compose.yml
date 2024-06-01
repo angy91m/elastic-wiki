@@ -87,6 +87,7 @@ services:
     working_dir: /home/node/app
     volumes:
       - ./strapi-start.sh:/home/node/strapi-start.sh
+      - ./str-contains.sh:/home/node/str-contains.sh
       - ../strapi-wiki:/home/node/app
     entrypoint: ["/home/node/strapi-start.sh"]
     expose:
