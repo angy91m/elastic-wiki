@@ -99,7 +99,7 @@ services:
     environment:
       NPM_CONFIG_PREFIX: /home/node/.npm-global
     command: |
-      export PATH="$PATH:/home/node/.npm-global/bin" && \
+      PATH="$PATH:/home/node/.npm-global/bin" && \
       npm i -g node-gyp && \
       npm i -g cargo-cp-artifact && \
       yarn install && yarn develop
