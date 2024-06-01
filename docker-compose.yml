@@ -83,7 +83,7 @@ services:
   strapi:
     image: node:20-alpine
     container_name: strapi
-    user: node
+    user: root
     working_dir: /home/node/app
     volumes:
       - ../strapi-wiki:/home/node/app
@@ -99,8 +99,7 @@ services:
     command: |
       npm i -g node-gyp && \
       npm i -g cargo-cp-artifact && \
-      yarn install && \
-      yarn develop
+      su -c 'yarn install && yarn develop'
   proxy:
     image: nginx:1.25.5-alpine
     container_name: proxy
