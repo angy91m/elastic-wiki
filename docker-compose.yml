@@ -99,6 +99,7 @@ services:
     environment:
       NPM_CONFIG_PREFIX: /home/node/.npm-global
     command: |
+      PATH="$PATH:/home/node/.npm-global/bin" && \
       echo "$PATH" && \
       npm i -g node-gyp && \
       npm i -g cargo-cp-artifact && \
