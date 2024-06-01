@@ -2,6 +2,7 @@
 apk update && \
 apk add curl && \
 su node <<EOSU
+echo "$@"
 inited=$( /home/node/str-contains.sh "$PATH" "/home/node/.npm-global/bin" )
 if [ "$inited" != "1" ]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
