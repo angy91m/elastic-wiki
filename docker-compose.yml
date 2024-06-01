@@ -83,7 +83,7 @@ services:
   strapi:
     image: node:20-alpine
     container_name: strapi
-    user: root
+    user: node
     working_dir: /home/node/app
     volumes:
       - ../strapi-wiki:/home/node/app
@@ -96,10 +96,13 @@ services:
         ipv4_address: "192.168.15.3"
       es_net:
         ipv4_address: "192.168.15.11"
+    environment:
+      NPM_CONFIG_PREFIX: /home/node/.npm-global
     command: |
+      export PATH="$PATH:/home/node/.npm-global/bin" && \
       npm i -g node-gyp && \
       npm i -g cargo-cp-artifact && \
-      su -c 'yarn install && yarn develop'
+      yarn install && yarn develop
   proxy:
     image: nginx:1.25.5-alpine
     container_name: proxy
