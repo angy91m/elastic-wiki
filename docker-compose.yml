@@ -84,7 +84,7 @@ services:
     image: 20-alpine
     container_name: strapi
     user: node-user
-    workdir: /home/node-user/app
+    working_dir: /home/node-user/app
     volumes:
       - ../strapi-wiki:/home/node-user/app
     expose:
