@@ -55,7 +55,8 @@ services:
     container_name: es01
     environment:
       node.name: es01
-      network.host: "192.168.15.10"
+      network.host: "0.0.0.0"
+      http.host: "0.0.0.0"
       cluster.name: es-cluster
       #cluster.initial_master_nodes: es01
       discovery.type: single-node

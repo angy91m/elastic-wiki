@@ -5,9 +5,9 @@ if [ ! -f /usr/share/elasticsearch/data/index-ready ]; then
     else
         startPass=$ELASTIC_PASSWORD
     fi
-    startUrl="http://localhost:9200"
+    startUrl="http://$HOSTNAME:9200"
     if [[ $startPass != "" ]]; then
-        startUrl="http://elastic:$startPass@localhost:9200"
+        startUrl="http://elastic:$startPass@$HOSTNAME:9200"
     fi
     (sleep 120 && \
     for fname in /usr/share/elasticsearch/config/indexes/*.json; do
