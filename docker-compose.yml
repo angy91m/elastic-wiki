@@ -86,9 +86,9 @@ services:
     user: node
     working_dir: /home/node/app
     volumes:
-      - ./strapi-start.sh:/strapi-start.sh
+      - ./strapi-start.sh:/home/node/strapi-start.sh
       - ../strapi-wiki:/home/node/app
-    entrypoint: ["/strapi-start.sh"]
+    entrypoint: ["/home/node/strapi-start.sh"]
     expose:
       - "1337"
     networks:
