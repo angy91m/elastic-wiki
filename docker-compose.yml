@@ -86,7 +86,9 @@ services:
     user: node
     working_dir: /home/node/app
     volumes:
+      - ./strapi-start.sh:/strapi-start.sh
       - ../strapi-wiki:/home/node/app
+    entrypoint: ["/strapi-start.sh"]
     expose:
       - "1337"
     networks:
@@ -99,11 +101,9 @@ services:
     environment:
       NPM_CONFIG_PREFIX: /home/node/.npm-global
     command: |
-      PATH="$PATH:/home/node/.npm-global/bin"
-      echo "$PATH"
-      #npm i -g node-gyp && \
-      #npm i -g cargo-cp-artifact && \
-      #yarn install && yarn develop
+      npm i -g node-gyp && \
+      npm i -g cargo-cp-artifact && \
+      yarn install && yarn develop
   proxy:
     image: nginx:1.25.5-alpine
     container_name: proxy
