@@ -1,5 +1,7 @@
 #!/bin/ash
 inited=$( /home/node/str-contains.sh "/home/node/.npm-global/bin" "$PATH" )
+echo $inited
+echo $PATH
 if [ $inited -eq 0 ]; then
     export PATH="$PATH:/home/node/.npm-global/bin" && \
     npm i -g node-gyp cargo-cp-artifact && \
